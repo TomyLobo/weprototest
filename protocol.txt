@@ -1,0 +1,69 @@
+packet types:
+00 END
+	terminates a packet stream. no parameters or following packet id
+
+01 POSITION
+	 1 2 3 4 5 6 7 8 910111213
+	xxxxxxxxyyyyyyyyzzzzzzzz0n
+	supports +/- 8m x/z and +/- 500k y
+02 RELATIVE_POSITION (unused)
+	 1 2 3 4 5
+	xxxyyyzzzn
+	supports +/- 2048 on each axis
+
+03 SIZE_4096
+	x = x width
+	z = z width
+	s = skip s blocks now (just so those 4 bits arent wasted :))
+	x is wrapped before z, y is never wrapped
+	 1 2 3 4
+	xxxzzzsn
+	4096 on x and z axis
+
+04 SIZE_1M
+	x = x width
+	z = z width
+	s = skip s blocks now (just so those 4 bits arent wasted :))
+	x is wrapped before z, y is never wrapped
+	 1 2 3 4 5 6
+	xxxxxzzzzzsn
+	4096 on x and z axis
+
+05 BLOCK_256
+	i = blockid
+	d = data value
+	 1 2
+	iidn
+06 BLOCK_4096
+	i = blockid
+	d = data value
+	 1 2 3
+	iiiddn
+
+07 REPEAT_16
+	r = repeat last block r+1 times
+	 1
+	rn
+08 REPEAT_4096
+	r = repeat last block r+1 times
+	 1 2
+	rrrn
+
+09 REPEAT_1m
+	r = repeat last block r+1 times
+	 1 2 3
+	rrrrrn
+
+0A SKIP_16
+	s = skip s+1 blocks
+	 1
+	sn
+0B SKIP_4096
+	s = skip s+1 blocks
+	 1 2
+	sssn
+
+0C SKIP_1m
+	s = skip s+1 blocks
+	 1 2 3
+	sssssn
