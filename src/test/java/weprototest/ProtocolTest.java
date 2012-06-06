@@ -14,17 +14,30 @@ import com.sk89q.worldedit.blocks.BaseBlock;
 
 public class ProtocolTest {
 	@Test
-	public void testProtocol() throws Exception {
+	public void testRepeat() throws Exception {
 		SortedMap<BlockVector, BaseBlock> source = new TreeMap<BlockVector, BaseBlock>();
 
-		for (int i = 0; i < 100*100*100*10; ++i) {
-			//final BaseBlock block = new BaseBlock((int)(Math.random()*255), (int)(Math.random()*15));
+		for (int i = 0; i < 100*100*2; ++i) {
 			final BaseBlock block = new BaseBlock(232, 13);
 			source.put(new Vector(Math.random()*100-50,Math.random()*100-50,Math.random()*100-50).toBlockPoint(), block);
 		}
-		//source.put(new BlockVector(1,0,0), new BaseBlock(232, 13));
-		//source.put(new BlockVector(0,0,0), new BaseBlock(232, 13));
 
+		testMap(source);
+	}
+
+	@Test
+	public void testRandom() throws Exception {
+		SortedMap<BlockVector, BaseBlock> source = new TreeMap<BlockVector, BaseBlock>();
+
+		for (int i = 0; i < 100*100*2; ++i) {
+			final BaseBlock block = new BaseBlock((int)(Math.random()*255), (int)(Math.random()*15));
+			source.put(new Vector(Math.random()*100-50,Math.random()*100-50,Math.random()*100-50).toBlockPoint(), block);
+		}
+
+		testMap(source);
+	}
+
+	private void testMap(SortedMap<BlockVector, BaseBlock> source) {
 		byte[] encoded = Protocol.encode(source);
 		System.out.println((double)encoded.length / source.size()+" bytes per block");
 		Map<BlockVector, BaseBlock> decoded = Protocol.decode(encoded);
