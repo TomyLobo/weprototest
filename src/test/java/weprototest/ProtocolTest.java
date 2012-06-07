@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.junit.Test;
 
@@ -35,6 +36,33 @@ public class ProtocolTest {
 		}
 
 		testMap(source);
+	}
+
+	@Test
+	public void testVectorCriterion() throws Exception {
+		TreeSet<BlockVector> set = new TreeSet<BlockVector>();
+		for (int x = 0; x < 2; ++x) {
+			for (int y = 0; y < 2; ++y) {
+				for (int z = 0; z < 2; ++z) {
+					set.add(new BlockVector(x, y, z));
+				}
+			}
+		}
+
+		String s = null;
+		for (BlockVector pos : set) {
+			boolean first = s == null;
+			if (first) {
+				s = "";
+			} else {
+				s += "/";
+			}
+			s += pos.getBlockX();
+			s += pos.getBlockY();
+			s += pos.getBlockZ();
+		}
+
+		assertEquals(s, "000/100/001/101/010/110/011/111");
 	}
 
 	private void testMap(SortedMap<BlockVector, BaseBlock> source) {
